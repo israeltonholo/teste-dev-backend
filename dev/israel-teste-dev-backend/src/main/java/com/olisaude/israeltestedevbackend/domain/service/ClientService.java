@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Id;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class ClientService {
 
         Client client = new Client();
         try {
-            JSONObject jsonObject = new JSONObject(newClient);;
+            JSONObject jsonObject = new JSONObject(newClient);
             client = jsonUtils.convertJsonToClient(jsonObject);
             client.setLastUpdate(OffsetDateTime.now());
             client.setRegistrationDate(OffsetDateTime.now());
@@ -52,6 +51,16 @@ public class ClientService {
     }
 
     public Client getClientById(Long id) {
-        return clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException());
+        return clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
+    }
+
+    public Client deleteClientById(Long id) {
+        try {
+            Client client = this.getClientById(id);
+            clientRepository.deleteById(id);
+            return client;
+        } catch (RuntimeException exception) {
+            throw new ClientNotFoundException();
+        }
     }
  }
