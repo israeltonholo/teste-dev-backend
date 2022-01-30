@@ -3,6 +3,7 @@ package com.olisaude.israeltestedevbackend.api.controller;
 import com.olisaude.israeltestedevbackend.domain.model.Client;
 import com.olisaude.israeltestedevbackend.domain.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class ClientController {
     }
 
     @PostMapping("/create")
-    public Client saveClient(@RequestBody String newClient) {
+    @ResponseBody
+    public ResponseEntity<?> saveClient(@RequestBody String newClient) {
         return clientService.setClient(newClient);
     }
 

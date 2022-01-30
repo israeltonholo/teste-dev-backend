@@ -7,6 +7,8 @@ import com.olisaude.israeltestedevbackend.domain.util.JsonUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -34,7 +36,7 @@ public class ClientService {
         }
     }
 
-    public Client setClient(String newClient) {
+    public ResponseEntity<?> setClient(String newClient) {
 
         Client client = new Client();
         try {
@@ -47,7 +49,7 @@ public class ClientService {
         }
 
         clientRepository.save(client);
-        return client;
+        return ResponseEntity.status(HttpStatus.CREATED).body(client);
     }
 
     public Client getClientById(Long id) {
