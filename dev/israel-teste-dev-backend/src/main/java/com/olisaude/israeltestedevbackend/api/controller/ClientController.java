@@ -38,4 +38,9 @@ public class ClientController {
         return clientService.deleteClientById(id);
     }
 
+    @PutMapping("/{id}")
+    public Client putClient(@RequestBody String editedClient, @PathVariable Long id) {
+        return clientService.putClientById(id, editedClient);
+    }
+
 }

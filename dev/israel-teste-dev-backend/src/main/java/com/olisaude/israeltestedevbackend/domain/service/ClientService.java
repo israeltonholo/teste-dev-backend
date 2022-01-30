@@ -63,4 +63,27 @@ public class ClientService {
             throw new ClientNotFoundException();
         }
     }
+
+    public Client putClientById(Long id, String editedClient) {
+
+        Client client;
+        try {
+            client = this.getClientById(id);
+        } catch (RuntimeException exception) {
+            throw new ClientNotFoundException();
+        }
+        try {
+            JSONObject jsonObject = new JSONObject(editedClient);
+            Client newClient = jsonUtils.convertJsonToClient(jsonObject);
+            client.setBirthDate(newClient.getBirthDate());
+            client.setName(newClient.getName());
+            client.setSurname(newClient.getSurname());
+            client.setGender(newClient.getGender());
+            client.setLastUpdate(OffsetDateTime.now());
+            clientRepository.save(client);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return client;
+    }
  }
