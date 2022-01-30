@@ -23,4 +23,14 @@ public class ClientController {
         return clientService.getAllClients();
     }
 
+    @PostMapping("/create")
+    public Client saveClient(@RequestBody String newClient) {
+        return clientService.setClient(newClient);
+    }
+
+    @GetMapping("/{id}")
+    public Client getClient(@PathVariable Long id) {
+        return clientService.getClientById(id);
+    }
+
 }
