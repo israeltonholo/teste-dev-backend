@@ -26,7 +26,7 @@ public class ClientController {
 
     @PostMapping("/create")
     @ResponseBody
-    public ResponseEntity<?> saveClient(@RequestBody String newClient) {
+    public ResponseEntity<Client> saveClient(@RequestBody String newClient) {
         return clientService.setClient(newClient);
     }
 
@@ -41,7 +41,8 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public Client putClient(@RequestBody String editedClient, @PathVariable Long id) {
+    @ResponseBody
+    public ResponseEntity<Client> putClient(@RequestBody String editedClient, @PathVariable Long id) {
         return clientService.putClientById(id, editedClient);
     }
 

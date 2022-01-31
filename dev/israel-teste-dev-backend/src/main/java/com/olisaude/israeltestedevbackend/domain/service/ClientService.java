@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -36,7 +37,8 @@ public class ClientService {
         }
     }
 
-    public ResponseEntity<?> setClient(String newClient) {
+    @Transactional
+    public ResponseEntity<Client> setClient(String newClient) {
 
         Client client = new Client();
         try {
@@ -56,6 +58,7 @@ public class ClientService {
         return clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
     }
 
+    @Transactional
     public Client deleteClientById(Long id) {
         try {
             Client client = this.getClientById(id);
@@ -66,7 +69,8 @@ public class ClientService {
         }
     }
 
-    public Client putClientById(Long id, String editedClient) {
+    @Transactional
+    public ResponseEntity<Client> putClientById(Long id, String editedClient) {
 
         Client client;
         try {
@@ -86,6 +90,6 @@ public class ClientService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return client;
+        return ResponseEntity.status(HttpStatus.OK).body(client);
     }
  }

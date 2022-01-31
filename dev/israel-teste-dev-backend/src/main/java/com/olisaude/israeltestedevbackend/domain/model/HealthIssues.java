@@ -1,5 +1,7 @@
 package com.olisaude.israeltestedevbackend.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,9 +16,11 @@ public class HealthIssues {
     private String name;
 
     @Column(name = "level_disease")
-    private String levelDisease;
+    @JsonFormat(shape=JsonFormat.Shape.NUMBER)
+    private Long levelDisease;
 
     @Column(name = "fk_client_user_id")
+    @JsonFormat(shape=JsonFormat.Shape.NUMBER)
     private Long userId;
 
     public Long getUserId() {
@@ -43,11 +47,11 @@ public class HealthIssues {
         this.name = name;
     }
 
-    public String getLevelDisease() {
+    public Long getLevelDisease() {
         return levelDisease;
     }
 
-    public void setLevelDisease(String levelDisease) {
+    public void setLevelDisease(Long levelDisease) {
         this.levelDisease = levelDisease;
     }
 }
