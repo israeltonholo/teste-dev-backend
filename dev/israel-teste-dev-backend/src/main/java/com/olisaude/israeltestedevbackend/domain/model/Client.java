@@ -1,6 +1,5 @@
 package com.olisaude.israeltestedevbackend.domain.model;
 
-import org.json.JSONObject;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;

@@ -1,5 +1,6 @@
 package com.olisaude.israeltestedevbackend.api.controller;
 
+import com.olisaude.israeltestedevbackend.api.model.ClientDTO;
 import com.olisaude.israeltestedevbackend.domain.model.Client;
 import com.olisaude.israeltestedevbackend.domain.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,11 @@ public class ClientController {
     @ResponseBody
     public ResponseEntity<Client> putClient(@RequestBody String editedClient, @PathVariable Long id) {
         return clientService.putClientById(id, editedClient);
+    }
+
+    @GetMapping("/maior-risco")
+    public List<ClientDTO> getTopTenClients() {
+        return clientService.getTopTenClients();
     }
 
 }

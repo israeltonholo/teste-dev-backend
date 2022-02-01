@@ -1,8 +1,10 @@
 package com.olisaude.israeltestedevbackend.domain.service;
 
+import com.olisaude.israeltestedevbackend.api.model.ClientDTO;
 import com.olisaude.israeltestedevbackend.domain.exceptions.ClientNotFoundException;
 import com.olisaude.israeltestedevbackend.domain.model.Client;
 import com.olisaude.israeltestedevbackend.domain.repository.ClientRepository;
+import com.olisaude.israeltestedevbackend.domain.util.HealthIssuesUtils;
 import com.olisaude.israeltestedevbackend.domain.util.JsonUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ClientService {
@@ -22,10 +24,14 @@ public class ClientService {
 
     @Autowired
     private final ClientRepository clientRepository;
+    private final HealthIssuesService healthIssuesService;
+    private final HealthIssuesUtils healthIssuesUtils;
 
-    public ClientService(JsonUtils jsonUtils, ClientRepository clientRepository) {
+    public ClientService(JsonUtils jsonUtils, ClientRepository clientRepository, HealthIssuesService healthIssuesService, HealthIssuesUtils healthIssuesUtils) {
         this.jsonUtils = jsonUtils;
         this.clientRepository = clientRepository;
+        this.healthIssuesService = healthIssuesService;
+        this.healthIssuesUtils = healthIssuesUtils;
     }
 
     public List<Client> getAllClients() {
@@ -92,4 +98,37 @@ public class ClientService {
         }
         return ResponseEntity.status(HttpStatus.OK).body(client);
     }
+
+    public List<ClientDTO> getTopTenClients() {
+        List<ClientDTO> clientDTOS = new ArrayList<>();
+        List<Client> allClients = clientRepository.findAll();
+        List<Integer> healthIssueLevel = new ArrayList<>();
+        for (Client client : allClients) {
+            healthIssueLevel.add(healthIssuesService
+                    .getAllIssuesByUserId(client.getId())
+                    .stream()
+                    .reduce(0, (subTotal, healthIssues) -> subTotal + Math.toIntExact(healthIssues.getLevelDisease()), Integer::sum));
+        }
+
+        for (int index = 1 ; index < allClients.size(); index += 1) {
+            ClientDTO newClientToDTOList = new ClientDTO();
+            Client clientFromList = allClients.get(index);
+            newClientToDTOList.setId(clientFromList.getId());
+            newClientToDTOList.setName(clientFromList.getName());
+            newClientToDTOList.setSurname(clientFromList.getSurname());
+            newClientToDTOList.setScore((float) healthIssuesUtils.calculateScore(healthIssueLevel.get(index)));
+
+            clientDTOS.add(newClientToDTOList);
+        }
+
+        Collections.sort(clientDTOS, new Comparator<ClientDTO>() {
+            @Override
+            public int compare(ClientDTO o1, ClientDTO o2) {
+                return o2.getScore().compareTo(o1.getScore());
+            }
+        });
+
+        return clientDTOS.subList(0, 10);
+    }
+
  }

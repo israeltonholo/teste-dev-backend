@@ -40,7 +40,7 @@ public class HealthIssuesController {
 
     @GetMapping("/{id}")
     public HealthIssues getHealthIssues(@PathVariable Long id) {
-        return healthIssuesService.getissueById(id);
+        return healthIssuesService.getIssueById(id);
     }
 
     @DeleteMapping("/{id}")
@@ -51,7 +51,7 @@ public class HealthIssuesController {
     @PutMapping("/{id}")
     @ResponseBody
     public ResponseEntity<HealthIssues> putHealthIssues(@RequestBody String editedHealthIssues, @PathVariable Long id) {
-        return healthIssuesService.putIssuetById(id, editedHealthIssues);
+        return healthIssuesService.putIssueById(id, editedHealthIssues);
     }
 
 }

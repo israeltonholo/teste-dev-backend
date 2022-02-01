@@ -61,14 +61,14 @@ public class HealthIssuesService {
         return ResponseEntity.status(HttpStatus.CREATED).body(healthIssues);
     }
 
-    public HealthIssues getissueById(Long id) {
+    public HealthIssues getIssueById(Long id) {
         return healthIssuesRepository.findById(id).orElseThrow(ClientNotFoundException::new);
     }
 
     @Transactional
     public HealthIssues deleteIssueById(Long id) {
         try {
-            HealthIssues healthIssues = this.getissueById(id);
+            HealthIssues healthIssues = this.getIssueById(id);
             healthIssuesRepository.deleteById(id);
             return healthIssues;
         } catch (RuntimeException exception) {
@@ -77,11 +77,11 @@ public class HealthIssuesService {
     }
 
     @Transactional
-    public ResponseEntity<HealthIssues> putIssuetById(Long id, String editedIssue) {
+    public ResponseEntity<HealthIssues> putIssueById(Long id, String editedIssue) {
 
         HealthIssues healthIssues;
         try {
-            healthIssues = this.getissueById(id);
+            healthIssues = this.getIssueById(id);
         } catch (RuntimeException exception) {
             throw new ClientNotFoundException();
         }
