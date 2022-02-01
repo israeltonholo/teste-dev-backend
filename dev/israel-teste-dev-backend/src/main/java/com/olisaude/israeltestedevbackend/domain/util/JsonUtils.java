@@ -6,8 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-
 import static com.olisaude.israeltestedevbackend.domain.util.ClockUtils.brazilsDataFormatToParseOffsetDate;
 
 @Component
@@ -41,7 +39,7 @@ public class JsonUtils {
             clientUtils.validateBirthDate(birthDate);
             client.setBirthDate(brazilsDataFormatToParseOffsetDate(birthDate));
 
-        } catch (JSONException | ParseException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
