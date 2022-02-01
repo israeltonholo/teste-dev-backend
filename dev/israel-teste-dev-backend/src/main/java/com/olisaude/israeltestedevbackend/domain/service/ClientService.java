@@ -36,8 +36,7 @@ public class ClientService {
 
     public List<Client> getAllClients() {
         try {
-            List<Client> clientList = clientRepository.findAll();
-            return clientList;
+            return clientRepository.findAll();
         } catch (RuntimeException exception) {
             throw new ClientNotFoundException();
         }

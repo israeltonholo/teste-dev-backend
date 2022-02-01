@@ -2,16 +2,13 @@ package com.olisaude.israeltestedevbackend.domain.util;
 
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Component
 public class ClockUtils {
 
-    public static OffsetDateTime brazilsDataFormatToParseOffsetDate(String brazilDate) throws ParseException {
+    public static OffsetDateTime brazilsDataFormatToParseOffsetDate(String brazilDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         LocalDate date;
         date = LocalDate.parse(brazilDate, formatter);

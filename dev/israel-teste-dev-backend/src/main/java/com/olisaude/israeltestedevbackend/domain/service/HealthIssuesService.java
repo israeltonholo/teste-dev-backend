@@ -29,8 +29,7 @@ public class HealthIssuesService {
 
     public List<HealthIssues> getAllIssues() {
         try {
-            List<HealthIssues> healthIssues = healthIssuesRepository.findAll();
-            return healthIssues;
+            return healthIssuesRepository.findAll();
         } catch (RuntimeException exception) {
             throw new ClientNotFoundException();
         }
@@ -38,8 +37,7 @@ public class HealthIssuesService {
 
     public List<HealthIssues> getAllIssuesByUserId(Long userId) {
         try {
-            List<HealthIssues> healthIssues = healthIssuesRepository.findByUserId(userId);
-            return healthIssues;
+            return healthIssuesRepository.findByUserId(userId);
         } catch (RuntimeException exception) {
             throw new ClientNotFoundException();
         }
